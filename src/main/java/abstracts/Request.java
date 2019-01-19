@@ -20,6 +20,7 @@ public abstract class Request {
     private ObjectMapper mapper;
     private WebResource webResource;
 
+
     public Request(String url) {
         // setting mapper
         this.mapper = new ObjectMapper();
@@ -56,12 +57,18 @@ public abstract class Request {
     }
 
     // getting response list
-    protected List<?> responseFormat(ClientResponse clientResponse, Class clazz) throws IOException {
+    protected List<?> responseFormat(ClientResponse clientResponse, Class clazz){
+        List<?> response = null;
         String jsonString = clientResponse.getEntity(String.class);
+        try {
+            response = mapper.readValue(castToArr(jsonString),
+                    mapper.getTypeFactory()
+                            .constructCollectionType(List.class, clazz));
+        } catch (IOException e) {
+            clientResponse.close();
+        }
 
-        return mapper.readValue(castToArr(jsonString),
-                mapper.getTypeFactory()
-                        .constructCollectionType(List.class, clazz));
+        return response;
     }
 }
 

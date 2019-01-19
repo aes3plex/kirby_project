@@ -14,8 +14,8 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class PostUsersTest {
-    private final String URL = "https://reqres.in/api/users";
-    private final Integer expectedCode = 201;
+    private String URL = "https://reqres.in/api/users";
+    private static Integer HTTP_CREATED = 201;
     private PostRequest request = new PostRequest(URL);
     private InputUser user;
 
@@ -36,6 +36,6 @@ public class PostUsersTest {
 
     @Test(timeout = 10000)
     public void ivanTest(){
-        assertEquals(request.getStatus(user), expectedCode);
+        assertEquals(request.getStatus(user), HTTP_CREATED);
     }
 }

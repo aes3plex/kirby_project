@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class PostRequest extends Request {
+    private ClientResponse clientResponse;
 
     public PostRequest(String url){
         super(url);
@@ -15,16 +16,21 @@ public class PostRequest extends Request {
 
     // Arguments: request object
     public Integer getStatus(Object object) {
-        ClientResponse response = getJsonBuilder().post(ClientResponse.class, object);
-        response.close();
+        clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+        clientResponse.close();
 
-        return response.getStatus();
+        return clientResponse.getStatus();
     }
 
     // Arguments: response class, request object
-    public List<?> getResponse(Class clazz, Object object) throws IOException {
-        ClientResponse clientResponse = getJsonBuilder().post(ClientResponse.class, object);
-        List<?> response = responseFormat(clientResponse, clazz);
+    public List<?> getResponse(Class clazz, Object object){
+        List<?> response = null;
+        clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+        if(clientResponse.getStatus() == 200 || clientResponse.getStatus() == 201) {
+            response = responseFormat(clientResponse, clazz);
+        } else {
+            System.out.println("Failed with status: " + clientResponse.getStatus());
+        }
         clientResponse.close();
 
         return response;

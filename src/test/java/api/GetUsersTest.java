@@ -6,13 +6,13 @@ import requests.GetRequest;
 import static org.junit.Assert.assertEquals;
 
 public class GetUsersTest {
-    private final String URL = "https://reqres.in/api/users/2";
-    private final Integer expectedCode = 200;
+    private String URL = "https://reqres.in/api/users/2";
+    private static final Integer HTTP_OK = 200;
     private GetRequest request = new GetRequest(URL);
 
     @Test(timeout = 10000)
     public void getUserTest(){
-        assertEquals(request.getStatus(), expectedCode);
+        assertEquals(request.getStatus(), HTTP_OK);
     }
 
 }

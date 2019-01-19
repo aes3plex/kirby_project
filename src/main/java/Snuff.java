@@ -1,27 +1,12 @@
-import pojo.InputUser;
-import pojo.OutputUser;
-import requests.PostRequest;
-
-import java.io.IOException;
-import java.security.MessageDigest;
+import pojo.Human;
+import requests.GetRequest;
 
 
 public class Snuff {
-    public static void main(String[] args) throws IOException, InterruptedException, Exception {
-   /*     String URL = "https://reqres.in/api/users";
-
-
-        PostRequest request = new PostRequest(URL);
-        PostRequest request1 = new PostRequest(URL);
-        InputUser ivan, oleg;
-
-        ivan = new InputUser("Ivan", "Developer");
-        oleg = new InputUser("Oleg", "QA");
-
-
-        System.out.println(request.getResponse(OutputUser.class, oleg));
-        System.out.println(request.getResponse(OutputUser.class, ivan));*/
-
+    public static void main(String[] args) {
+        String URL = "https://reqres.in/fsfdsf/fdsf";
+        GetRequest request = new GetRequest(URL);
+        System.out.println(request.getResponse(Human.class));
 
     }
 }
