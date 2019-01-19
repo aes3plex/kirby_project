@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class PostUsersTest {
     private String URL = "https://reqres.in/api/users";
-    private static Integer HTTP_CREATED = 201;
+    private final static int HTTP_CREATED = 201;
     private PostRequest request = new PostRequest(URL);
     private InputUser user;
 

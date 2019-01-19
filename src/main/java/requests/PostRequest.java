@@ -7,31 +7,44 @@ import java.io.IOException;
 import java.util.List;
 
 public class PostRequest extends Request {
-    private ClientResponse clientResponse;
-
     public PostRequest(String url){
         super(url);
     }
 
-
-    // Arguments: request object
-    public Integer getStatus(Object object) {
-        clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+    public int getContentLength(Object object) {
+        ClientResponse clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+        int contentLength = clientResponse.getLength();
         clientResponse.close();
 
-        return clientResponse.getStatus();
+        return contentLength;
+    }
+
+    public int getStatus(Object object) {
+        ClientResponse clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+        int statusCode = clientResponse.getStatus();
+        clientResponse.close();
+
+        return statusCode;
+    }
+
+    public long getResponseTime(Object object){
+        long startRequest = System.currentTimeMillis();
+        ClientResponse clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+        long responseTime = System.currentTimeMillis() - startRequest;
+        clientResponse.close();
+
+        return responseTime;
     }
 
     // Arguments: response class, request object
-    public List<?> getResponse(Class clazz, Object object){
+    public List<?> getResponse(Class clazz, Object object) {
         List<?> response = null;
-        clientResponse = getJsonBuilder().post(ClientResponse.class, object);
-        if(clientResponse.getStatus() == 200 || clientResponse.getStatus() == 201) {
+        ClientResponse clientResponse = getJsonBuilder().post(ClientResponse.class, object);
+        if (clientResponse.getStatus() == 200 || clientResponse.getStatus() == 201) {
             response = responseFormat(clientResponse, clazz);
         } else {
             System.out.println("Failed with status: " + clientResponse.getStatus());
         }
-        clientResponse.close();
 
         return response;
     }

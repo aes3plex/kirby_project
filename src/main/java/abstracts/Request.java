@@ -3,6 +3,7 @@ package abstracts;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jersey.api.client.AsyncWebResource;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -57,16 +58,20 @@ public abstract class Request {
     }
 
     // getting response list
-    protected List<?> responseFormat(ClientResponse clientResponse, Class clazz){
+    protected List<?> responseFormat(ClientResponse clientResponse, Class clazz) {
         List<?> response = null;
+
         String jsonString = clientResponse.getEntity(String.class);
+
         try {
             response = mapper.readValue(castToArr(jsonString),
-                    mapper.getTypeFactory()
-                            .constructCollectionType(List.class, clazz));
+                        mapper.getTypeFactory()
+                                .constructCollectionType(List.class, clazz));
         } catch (IOException e) {
+            e.getMessage();
             clientResponse.close();
         }
+        clientResponse.close();
 
         return response;
     }
